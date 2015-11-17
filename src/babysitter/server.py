@@ -6,6 +6,8 @@ import os
 import tornado.ioloop
 import tornado.web
 
+from babysitter.settings import DEBUG
+
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
@@ -17,7 +19,7 @@ class PingHandler(tornado.web.RequestHandler):
 
 settings = {
     'static_path': os.path.join(os.path.dirname(__file__), '../../web'),
-    'debug': True,
+    'debug': DEBUG,
 }
 
 application = tornado.web.Application([

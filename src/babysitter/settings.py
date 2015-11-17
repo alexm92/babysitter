@@ -7,3 +7,5 @@ DB = {
     'port': 27017,
 }
 
+DEBUG = True
+
