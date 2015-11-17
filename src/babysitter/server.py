@@ -4,33 +4,39 @@ import logging
 import os
 
 import tornado.ioloop
+import tornado.options
 import tornado.web
 
-from babysitter.settings import DEBUG
+from .settings import DEBUG
+from .controllers import *
 
 
-class MainHandler(tornado.web.RequestHandler):
-    def get(self):
-        self.render('../../web/index.html', title='Babysitter - Issue report tracking', cdn='web')
+log = logging.getLogger(__name__)
 
-class PingHandler(tornado.web.RequestHandler):
-    def get(self):
-        self.write({'ping': 'pong'})
+class Application(tornado.web.Application):
+    """ 
+    Main Application 
+    """
+    def __init__(self):
+        settings = {
+            'static_path': os.path.join(os.path.dirname(__file__), '../../web'),
+            'debug': DEBUG,
+        }
 
-settings = {
-    'static_path': os.path.join(os.path.dirname(__file__), '../../web'),
-    'debug': DEBUG,
-}
-
-application = tornado.web.Application([
-    (r'/', MainHandler),
-    (r'/api/v1/ping', PingHandler),
-    (r'/static/(.*)', tornado.web.StaticFileHandler, dict(path=settings['static_path'])),
-], **settings)
+        handlers = [
+            (r'^/$', MainController),
+            (r'^/api/v1/(.*)$', ApiController),
+            (r'^/static/(.*)$', tornado.web.StaticFileHandler, dict(path=settings['static_path'])),
+        ]
+        tornado.web.Application.__init__(self, handlers, **settings)
+        
+        # show requests in stdout
+        tornado.options.parse_command_line()
 
 
 def main():
-    application.listen(8888)
+    app = Application()
+    app.listen(8888)
     tornado.ioloop.IOLoop.current().start()
 
 
