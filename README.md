@@ -2,10 +2,16 @@ Baby Sitter
 ===================
 Platform Status
 
+Install Project
+-------------------
+```bash
+python setup.py install
+```
+
 Start server
 -------------------
 ```bash
-python -m SimpleHTTPServer
+python server.py
 ```
 
 Compile Style
