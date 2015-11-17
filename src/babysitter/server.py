@@ -26,6 +26,12 @@ application = tornado.web.Application([
     (r'/static/(.*)', tornado.web.StaticFileHandler, dict(path=settings['static_path'])),
 ], **settings)
 
-if __name__ == "__main__":
+
+def main():
     application.listen(8888)
     tornado.ioloop.IOLoop.current().start()
+
+
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,10 @@
+#!/usr/bin/python
+
+from __future__ import absolute_import
+
+from babysitter.server import main
+
+
+if __name__ == '__main__':
+    main()
+
